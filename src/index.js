@@ -32,7 +32,7 @@ const core = {
     // From (image) config
     const from = [ core.manifest.from ];
     // Split command into (space delimited) parts
-    const cmd = [ 'bash', '-c', core.manifest.run ];
+    const cmd = [ 'sh', '-c', core.manifest.run ];
     // Build full args array
     args = core.links.length ? args.concat(core.links) : args;
     args = env.length ? args.concat(env) : args;

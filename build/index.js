@@ -57,7 +57,7 @@ var core = {
     // From (image) config
     var from = [core.manifest.from];
     // Split command into (space delimited) parts
-    var cmd = ['bash', '-c', core.manifest.run];
+    var cmd = ['sh', '-c', core.manifest.run];
     // Build full args array
     args = core.links.length ? args.concat(core.links) : args;
     args = env.length ? args.concat(env) : args;

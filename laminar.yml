@@ -1,13 +1,11 @@
-from: technologyadvice/node-build:0.12
-services:
-  - docker:dind:
-      name: dind
-      persist: false
+from: docker:dind
 before-task: |
-  apk add docker
+  apk update
+  apk add nodejs
 tasks:
   env: |
     env
+    docker -v
     node -v
   test: npm test
   lint: npm run lint
