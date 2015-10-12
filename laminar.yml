@@ -1,7 +1,8 @@
-from: docker:dind
-before-task: |
-  apk update
-  apk add nodejs
+from: technologyadvice/node-build:0.12-docker
+services:
+  - docker:1.8-dind:
+      name: docker
+      persist: false
 tasks:
   env: |
     env
