@@ -1,1 +1,5 @@
 test/
+circle.yml
+.eslintignore
+.eslintrc
+.gitignore

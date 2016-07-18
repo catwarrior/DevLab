@@ -1,0 +1,23 @@
+from: node:4
+services:
+  - mongo:3.0:
+      name: mongodb
+      env:
+        - DB_ROOT_PASSWORD=foo
+      expose:
+        - 27017:27017
+      persist: false
+env:
+  - LOCAL_HOME=${HOME}
+expose:
+  - 8080:8080
+volumes:
+  - ${HOME}/.ssh:/root/.ssh
+before-task: |
+  echo starting.
+after-task: |
+  echo completed.
+tasks:
+  env: env
+  echotest: |
+    echo test
