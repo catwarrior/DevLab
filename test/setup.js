@@ -1,10 +1,10 @@
 'use strict'
 const chai = require('chai')
-const sinon = require('sinon')
 const schai = require('sinon-chai')
 const mod = require('module')
 const path = require('path')
-global.sinon = sinon
+global.sinon = require('sinon')
+global.proxyquire = require('proxyquire')
 global.expect = chai.expect
 chai.use(schai)
 
