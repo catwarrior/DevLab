@@ -26,9 +26,9 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "npm run lint && npm run mocha",
+    "test": "npm run lint && npm run cover",
     "mocha": "mocha $(find test -name '*.spec.js')",
-    "cover": "istanbul cover _mocha",
+    "cover": "istanbul cover _mocha -- $(find test -name '*.spec.js')",
     "lint": "eslint . --fix",
     "local-install": "npm install -g ."
   },
