@@ -14,7 +14,7 @@ to setup and maintain these environments manually.
 npm install devlab -g
 ```
 
-**Note: DevLab requires Node v.4+ to run.** 
+**Note: DevLab requires Node v.4+ to run.**
 
 *Obvious Note: You need to have [Docker](https://www.docker.com/) installed as well.*
 
@@ -110,7 +110,7 @@ The "key" is the image, in the above example the service running will be version
 * `expose`: Expose any ports. This is useful if you would like to persist the service and access it directly after running tasks.
 * `persist`: Defaults to `true`; will keep the service running. A service (such as a database) not persisted will not retain data between runs.
 * `exec`: Executes a script/task on the container
-* 
+*
 ##### Linking Services
 
 Services can also be linked together. This can be achieved via the following:
@@ -147,14 +147,6 @@ To quickly override a port you can use the `-p` flag, for instance, if the follo
 expose:
   - 8888:9999
 ```
-
-The `8888` exposed to the host could be overridden to instead expose to `3333` on the host with:
-
-```
-lab {some_task} -p 3333
-```
-
-**Note: this currently only works with the first exposed port config*
 
 #### `hosts`
 
@@ -213,34 +205,28 @@ DevLab uses the `-e` flag to allow for execution of tasks not in the `devlab.yml
 lab -e "echo hello world"
 ```
 
-## Interactive Mode
+## Interactive Terminal
 
-By default, DevLab attempts to use Docker's `-it` flag when running, however, some configurations may require manually instructing interactive (`STDIN`) support.
-
-For debugging or running custom commands inside the container the `-i` (interactive) flag is available:
+By default, DevLab uses Docker's `-it` flag when running, allowing interactive sessions. For instance the configuration (including services, volumes, etc) could be run and accessed interactively via:
 
 ```
-lab -i -e "/bin/bash"
+lab -e "/bin/bash"
 ```
-
-The above will run the container with `STDIN` support at bash shell for working inside the container. **Executing the `exit` command will stop the service.**
-
-The interactive command can be used with the `-e` flag as in the example above or with any tasks configured in the `devlab.yml`
 
 ## Port forwarding
 
 If you're running the docker daemon remotely, as is commonly the case with docker-machine users, DevLab will attempt to forward any `expose`d ports (for your main project as well as any linked services) from your local machine to your remote docker machine, over both TCP and UDP. No more hunting down IP addresses to hit -- you can just hit localhost.
 
 To avoid this default behavior, add the following property to `devlab.yml` at the same level as any `expose` directive that you don't want to have forwarded:
- 
+
 ```
 forward: false
 ```
 
 ## License
 
-DevLab is licensed under the MIT license. Please see `LICENSE.txt` for full details.
+DevLab is licensed under the MIT license. Please see [`LICENSE.txt`](LICENSE.txt) for full details.
 
 ## Credits
 
-DevLab was designed and created at [TechnologyAdvice](http://www.technologyadvice.com).
+Developed and maintained by the engineering team at  [TechnologyAdvice](http://www.technologyadvice.com).
