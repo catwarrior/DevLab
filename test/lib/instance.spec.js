@@ -26,4 +26,34 @@ describe('Instance', () => {
       expect(processExitStub).to.be.calledWith(0)
     })
   })
+  describe('(setter) opts', () => {
+    const emptyDevlab = 'test/fixtures/empty.devlab.yml'
+    let testInstance
+    beforeEach(() => {
+      testInstance = new Instance({ c: emptyDevlab })
+    })
+    afterEach(() => {
+      testInstance = null
+    })
+    it('loads the config file from arg `c`', () => {
+      testInstance.opts = { c: 'test/fixtures/basic.devlab.yml' }
+      expect(testInstance.opts).to.have.any.keys([ 'from', 'services', 'env', 'expose' ])
+    })
+    it('overrides `from` if `f` arg is passed', () => {
+      testInstance.opts = { c: emptyDevlab, f: 'foo:bar' }
+      expect(testInstance.opts.from).to.equal('foo:bar')
+    })
+    it('overrides `quiet` property if `q` arg is passed', () => {
+      testInstance.opts = { c: emptyDevlab, q: true }
+      expect(testInstance.opts.quiet).to.be.true
+    })
+    it('overrides `exec` property if `e` arg is passed', () => {
+      testInstance.opts = { c: emptyDevlab, e: true }
+      expect(testInstance.opts.exec).to.be.true
+    })
+    it('sets the `task` property if command is provided', () => {
+      testInstance.opts = { c: emptyDevlab, _: [ 'foo' ] }
+      expect(testInstance.opts.task).to.equal('foo')
+    })
+  })
 })
