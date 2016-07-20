@@ -14,7 +14,7 @@ describe('loadConfig', () => {
     output.error.restore()
   })
   it('loads a yaml config file and returns and object when path exists', () => {
-    const actual = loadConfig('test/fixtures/basic.devlab.yml')
+    const actual = loadConfig('test/fixtures/devlab.yml')
     expect(actual.from).to.equal('node:4')
   })
   it('outputs an error and exits the process if config path does not exists', () => {

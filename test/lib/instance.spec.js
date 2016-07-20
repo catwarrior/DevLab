@@ -1,6 +1,10 @@
 'use strict'
 
-const Instance = require('lib/instance')
+const Instance = proxyquire('lib/instance', {
+  shelljs: {
+    pwd: () => `${__dirname}/test/fixtures`
+  }
+})
 const output = require('lib/output')
 
 describe('Instance', () => {
@@ -28,16 +32,32 @@ describe('Instance', () => {
   })
   describe('(setter) opts', () => {
     const emptyDevlab = 'test/fixtures/empty.devlab.yml'
+    const blankDevlab = 'test/fixtures/blank.devlab.yml'
     let testInstance
+    let outputErrorStub
+    let processExitStub
     beforeEach(() => {
+      outputErrorStub = sinon.stub(output, 'error', (msg) => msg)
+      processExitStub = sinon.stub(process, 'exit', () => null)
       testInstance = new Instance({ c: emptyDevlab })
     })
     afterEach(() => {
+      output.error.restore()
+      process.exit.restore()
       testInstance = null
     })
-    it('loads the config file from arg `c`', () => {
-      testInstance.opts = { c: 'test/fixtures/basic.devlab.yml' }
+    it('loads the config file from the default (devlab.yml) in cwd', () => {
+      testInstance.opts = {}
       expect(testInstance.opts).to.have.any.keys([ 'from', 'services', 'env', 'expose' ])
+    })
+    it('loads the config file from arg `c`', () => {
+      testInstance.opts = { c: 'test/fixtures/devlab.yml' }
+      expect(testInstance.opts).to.have.any.keys([ 'from', 'services', 'env', 'expose' ])
+    })
+    it('outputs error if no `from` property is set', () => {
+      testInstance.opts = { c: blankDevlab }
+      expect(outputErrorStub).to.be.calledWith('No `from` property set')
+      expect(processExitStub).to.be.calledWith(1)
     })
     it('overrides `from` if `f` arg is passed', () => {
       testInstance.opts = { c: emptyDevlab, f: 'foo:bar' }
