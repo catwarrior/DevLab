@@ -31,7 +31,7 @@ describe('Instance', () => {
     })
   })
   describe('(setter) opts', () => {
-    const emptyDevlab = 'test/fixtures/empty.devlab.yml'
+    const emptyDevlab = 'test/fixtures/starter.devlab.yml'
     const blankDevlab = 'test/fixtures/blank.devlab.yml'
     let testInstance
     let outputErrorStub
