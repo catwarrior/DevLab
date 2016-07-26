@@ -28,8 +28,6 @@ For a hands-on crash course in utilizing DevLab, follow the steps below:
 4. Use DevLab to install dependencies: `lab install`
 5. Run tests: `lab test`
 
-For more information please see [this blog post](http://fluidbyte.net/docker/devlab/nodejs/2015/10/15/containerize-your-local-dev-in-minutes-with-devlab/) about getting started with DevLab.
-
 ## Usage
 
 DevLab operates as a command on your system (via global install). It reads the
@@ -44,6 +42,7 @@ To configure a project to use DevLab, simply add a `devlab.yml` to the root of
 your project. An example of this file looks like:
 
 ```yaml
+name: node_project
 from: node:0.10
 services:
   - mongo:3.0:
@@ -52,7 +51,6 @@ services:
         - DB_ROOT_PASSWORD=foo
       expose:
         - 27017:27017
-      persist: false
       exec: |
         echo "Some task"
 env:
@@ -108,28 +106,7 @@ The "key" is the image, in the above example the service running will be version
 * `name`: Set an arbitrary name for the service
 * `env`: Array of environment variables to pass to the service
 * `expose`: Expose any ports. This is useful if you would like to persist the service and access it directly after running tasks.
-* `persist`: Defaults to `true`; will keep the service running. A service (such as a database) not persisted will not retain data between runs.
 * `exec`: Executes a script/task on the container
-*
-##### Linking Services
-
-Services can also be linked together. This can be achieved via the following:
-
-```yaml
-services:
-  - someDatabase:
-      name: foo
-      persist: false
-  - someApplication:
-      name: bar
-      persist: false
-      link:
-        - foo
-```
-
-The above would link the `someDatabase` container `foo` in the `someApplication` container `bar`. This is useful for mocking microservices or utilizing API's that depend on a shared data source.
-
-It is important to note that this is a linear process of linking so the order of services must be set so the dependency container is started before any services that link it.
 
 #### `env`
 
@@ -204,6 +181,10 @@ DevLab uses the `-e` flag to allow for execution of tasks not in the `devlab.yml
 ```
 lab -e "echo hello world"
 ```
+
+## Persistance
+
+Conatiners by default act ephemerally; stopping when the current task completes execution. However, setting `persist: true` in the configuration of a container or service will allow that container to persist.
 
 ## Interactive Terminal
 
