@@ -4,9 +4,9 @@ const output = require('lib/output')
 const chalk = require('chalk')
 
 describe('output', () => {
-  let logSpy
+  let logStub
   beforeEach(() => {
-    logSpy = sinon.spy(output, 'log')
+    logStub = sinon.stub(output, 'log')
   })
   afterEach(() => {
     output.log.restore()
@@ -19,25 +19,25 @@ describe('output', () => {
   describe('success', () => {
     it('outputs a success message', () => {
       output.success('test-success')
-      expect(logSpy).to.be.calledWith(chalk.bold.green('⦿ ') + chalk.bold(output.renderVars('test-success')))
+      expect(logStub).to.be.calledWith(chalk.bold.green('⦿ ') + chalk.bold(output.renderVars('test-success')))
     })
   })
   describe('warn', () => {
     it('outputs a warn message', () => {
       output.warn('test-warn')
-      expect(logSpy).to.be.calledWith(chalk.bold.yellow('⦿ ') + chalk.bold(output.renderVars('test-warn')))
+      expect(logStub).to.be.calledWith(chalk.bold.yellow('⦿ ') + chalk.bold(output.renderVars('test-warn')))
     })
   })
   describe('error', () => {
     it('outputs an error message', () => {
       output.error('test-error')
-      expect(logSpy).to.be.calledWith(chalk.bold.red('⦿ ') + chalk.bold(output.renderVars('test-error')))
+      expect(logStub).to.be.calledWith(chalk.bold.red('⦿ ') + chalk.bold(output.renderVars('test-error')))
     })
   })
   describe('insertBreak', () => {
     it('outputs a grey line break', () => {
       output.insertBreak()
-      expect(logSpy).to.be.calledWith(chalk.gray('---'))
+      expect(logStub).to.be.calledWith(chalk.gray('---'))
     })
   })
 })
