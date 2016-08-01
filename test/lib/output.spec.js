@@ -1,6 +1,7 @@
 'use strict'
 require('mocha-sinon')
 const output = require('lib/output')
+const chalk = require('chalk')
 
 describe('output', () => {
   let logSpy
@@ -18,19 +19,25 @@ describe('output', () => {
   describe('success', () => {
     it('outputs a success message', () => {
       output.success('test-success')
-      expect(logSpy).to.be.called
+      expect(logSpy).to.be.calledWith(chalk.bold.green('⦿ ') + chalk.bold(output.renderVars('test-success')))
     })
   })
   describe('warn', () => {
     it('outputs a warn message', () => {
       output.warn('test-warn')
-      expect(logSpy).to.be.called
+      expect(logSpy).to.be.calledWith(chalk.bold.yellow('⦿ ') + chalk.bold(output.renderVars('test-warn')))
     })
   })
   describe('error', () => {
     it('outputs an error message', () => {
       output.error('test-error')
-      expect(logSpy).to.be.called
+      expect(logSpy).to.be.calledWith(chalk.bold.red('⦿ ') + chalk.bold(output.renderVars('test-error')))
+    })
+  })
+  describe('insertBreak', () => {
+    it('outputs a grey line break', () => {
+      output.insertBreak()
+      expect(logSpy).to.be.calledWith(chalk.gray('---'))
     })
   })
 })
