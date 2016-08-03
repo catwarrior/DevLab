@@ -5,6 +5,7 @@ const Instance = proxyquire('lib/instance', {
     pwd: () => `${__dirname}/test/fixtures`
   }
 })
+const Container = require('lib/container')
 const output = require('lib/output')
 
 describe('Instance', () => {
@@ -74,6 +75,15 @@ describe('Instance', () => {
     it('sets the `task` property if command is provided', () => {
       testInstance.opts = { c: emptyDevlab, _: [ 'foo' ] }
       expect(testInstance.opts.task).to.equal('foo')
+    })
+  })
+  describe('start', () => {
+    it('creates a new container instance and calls build method', () => {
+      const containerBuildSpy = sinon.spy(Container.prototype, 'build')
+      const testInstance = new Instance({ c: 'test/fixtures/starter.devlab.yml' })
+      testInstance.start()
+      expect(containerBuildSpy).to.be.called
+      Container.prototype.build.restore()
     })
   })
 })

@@ -6,7 +6,7 @@ const chalk = require('chalk')
 describe('output', () => {
   let logStub
   beforeEach(() => {
-    logStub = sinon.stub(output, 'log')
+    logStub = sinon.spy(output, 'log')
   })
   afterEach(() => {
     output.log.restore()
@@ -38,6 +38,19 @@ describe('output', () => {
     it('outputs a grey line break', () => {
       output.insertBreak()
       expect(logStub).to.be.calledWith(chalk.gray('---'))
+    })
+  })
+  describe('log', () => {
+    let processStdoutWriteStub
+    before(() => {
+      processStdoutWriteStub = sinon.spy(process.stdout, 'write')
+    })
+    after(() => {
+      process.stdout.write.restore()
+    })
+    it('outputs a message to process.stdout', () => {
+      output.log('foo')
+      expect(processStdoutWriteStub).to.be.calledWith('foo\n')
     })
   })
 })
