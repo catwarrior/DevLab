@@ -34,4 +34,12 @@ describe('parseOpts', () => {
       expect(args).to.deep.equal([ '--add-host', 'foo:0.0.0.0' ])
     })
   })
+  describe('parseName', () => {
+    it('parses opts and returns the specified name, prefixed and escaped', () => {
+      expect(parseOpts.parseName({ name: 'test image$' })).to.equal('dl_test_image')
+    })
+    it('parses opts and returns the name infered from `from` property, prefixed and escaped', () => {
+      expect(parseOpts.parseName({ from: 'test image$' })).to.equal('dl_test_image')
+    })
+  })
 })
