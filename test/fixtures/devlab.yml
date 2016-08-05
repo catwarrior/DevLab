@@ -13,11 +13,9 @@ expose:
   - 8080:8080
 volumes:
   - ${HOME}/.ssh:/root/.ssh
-before-task: |
-  echo starting.
-after-task: |
-  echo completed.
 tasks:
   env: env
-  echotest: |
-    echo test
+  test:
+    services:
+      - mongodb
+    command: npm run test
